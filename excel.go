@@ -50,22 +50,22 @@ func (e *ExcelModel) Write2File(f *excelize.File, sheetName, topLeft string) (st
 	if c == -1 {
 		return "", fmt.Errorf("cell addess  %s is wrong", topLeft)
 	}
-	writeStringRow2Excel(f, sheetName, e.headers, c, r)
+	WriteStringRow2Excel(f, sheetName, e.headers, c, r)
 	for _, row := range e.data {
 		r++
-		writeRow2Excel(f, sheetName, row, c, r)
+		WriteRow2Excel(f, sheetName, row, c, r)
 	}
 	return Cr2s(c+len(e.headers)-1, r), nil
 }
 
-func writeStringRow2Excel(x *excelize.File, sheet string, row []string, c, r int) {
+func WriteStringRow2Excel(x *excelize.File, sheet string, row []string, c, r int) {
 	for _, cell := range row {
 		x.SetCellStr(sheet, Cr2s(c, r), cell)
 		c++
 	}
 }
 
-func writeRow2Excel(x *excelize.File, sheet string, row []interface{}, c, r int) {
+func WriteRow2Excel(x *excelize.File, sheet string, row []interface{}, c, r int) {
 	for _, cell := range row {
 		x.SetCellValue(sheet, Cr2s(c, r), cell)
 		c++
