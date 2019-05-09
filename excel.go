@@ -2,9 +2,7 @@ package excelutil
 
 import (
 	"fmt"
-	"github.com/360EntSecGroup-Skylar/excelize"
-	"regexp"
-	"strconv"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 )
 
 type ExcelModel struct {
@@ -73,27 +71,12 @@ func WriteRow2Excel(x *excelize.File, sheet string, row []interface{}, c, r int)
 }
 
 func Cr2s(c, r int) string {
-	colString := excelize.ToAlphaString(c)
-	rowString := strconv.FormatInt(int64(r), 10)
-	return colString + rowString
+	s, _ := excelize.CoordinatesToCellName(c,r)
+	return s
 }
 func S2cr(s string) (int, int) {
-	re := regexp.MustCompile(`^([A-Za-z]+)(\d+)$`)
-	sa := re.FindStringSubmatch(s)
-	//fmt.Println("sa= ", sa)
-
-	if sa == nil || len(sa) != 3 {
-		return -1, -1
-	}
-
-	c := excelize.TitleToNumber(sa[1])
-	r, err := strconv.ParseInt(sa[2], 10, 32)
-	if err != nil {
-		return -1, -1
-	}
-
-	return int(c), int(r)
-
+	c,r, _ := excelize.CellNameToCoordinates(s)
+	return c,r
 }
 
 func AdvanceRow(current string, step int) (string, error) {
