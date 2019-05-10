@@ -87,6 +87,7 @@ func AdvanceRow(current string, step int) (string, error) {
 	return Cr2s(c, r+step), nil
 }
 
+
 func AdvanceCol(current string, step int) (string, error) {
 	c, r := S2cr(current)
 	if c == -1 {
